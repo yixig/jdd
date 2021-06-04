@@ -39,6 +39,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
       }
       console.log('\n\n京东账号：'+merge.nickname + ' 任务开始')
       await zoo_pk_getHomeData();
+      await zoo_getHomeData();
       if (merge.black) continue;
       
       await msgShow();
@@ -151,6 +152,60 @@ function zoo_pk_assistGroup(inviteId = "",timeout = 0) {
     },timeout)
   })
 }
+
+//获取首页信息
+function zoo_getHomeData(inviteId= "",timeout = 0) {
+  return new Promise((resolve) => {
+    setTimeout( ()=>{
+      let url = {
+        url : `${JD_API_HOST}zoo_getHomeData`  ,
+        headers : {
+          'Origin' : `https://wbbny.m.jd.com`,
+          'Cookie' : cookie,
+          'Connection' : `keep-alive`,
+          'Accept' : `application/json, text/plain, */*`,
+          'Host' : `api.m.jd.com`,
+          'User-Agent' : `jdapp;iPhone;9.2.0;14.1;`,
+          'Accept-Encoding' : `gzip, deflate, br`,
+          'Accept-Language' : `zh-cn`
+        },
+        body : `functionId=zoo_getHomeData&body={${inviteId ? "\"inviteId\":\"" + inviteId +'\"': ""}}&client=wh5&clientVersion=1.0.0`
+      }
+      $.post(url, async (err, resp, data) => {
+        try {
+          //console.log(data)
+          //if (merge.black)  return ;
+          data = JSON.parse(data);
+          if (data.code === 0) {
+            if (inviteId !== "") {
+              let taskBody = `functionId=zoo_collectScore&body=${JSON.stringify({"taskId": 2,"inviteId":inviteId,"actionType":1,"ss" : getBody()})}&client=wh5&clientVersion=1.0.0`
+              //await zoo_collectScore(taskBody, 1000)
+              return
+            }
+            //console.log('zoo_getHomeData:' + JSON.stringify(data))
+            secretp = data.data.result.homeMainInfo.secretp
+            //await zoo_collectProduceScore();
+            if (merge.black) return;
+            await zoo_pk_getHomeData('sSKNX-MpqKOJsNu_mZneBluwe_DRzs1f90l6Q_p8OVxtoB-JJEErrVU4eHW7e2I')
+            //await zoo_pk_assistGroup()
+            //if (data.data.result.homeMainInfo.raiseInfo.buttonStatus === 1 )
+            if (parseInt(data.data.result.homeMainInfo.raiseInfo.totalScore) >= parseInt(data.data.result.homeMainInfo.raiseInfo.nextLevelScore) ) await zoo_raise(1000)
+            await zoo_getHomeData('ZXTKT0225KkcRx4b8lbWJU72wvZZcwFjRWn6-7zx55awQ');
+            //await zoo_getTaskDetail()
+            //await zoo_getTaskDetail("","app")
+          } else {
+            return
+          }
+        } catch (e) {
+          $.logErr(e, resp);
+        } finally {
+          resolve()
+        }
+      })
+    },timeout)
+  })
+}
+
 
 
 //助力
