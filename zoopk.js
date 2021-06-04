@@ -195,7 +195,7 @@ function zoo_myMap(timeout = 0){
             // (data.data.result.shopList[i].status === 1) {
               //console.log(data.data.result.shopList[i])
             console.log('\n开始小镇任务：'+ data.data.result.shopList[i].name)// + '-' + data.data.result.shopList[i].shopId
-            await zoo_getTaskDetail(data.data.result.shopList[i].shopId)
+            //await zoo_getTaskDetail(data.data.result.shopList[i].shopId)
             //}
           }
         } catch (e) {
@@ -646,8 +646,8 @@ function zoo_getHomeData(inviteId= "",timeout = 0) {
             //if (data.data.result.homeMainInfo.raiseInfo.buttonStatus === 1 )
             if (parseInt(data.data.result.homeMainInfo.raiseInfo.totalScore) >= parseInt(data.data.result.homeMainInfo.raiseInfo.nextLevelScore) ) await zoo_raise(1000)
             await zoo_getHomeData('ZXTKT0225KkcRx4b8lbWJU72wvZZcwFjRWn6-7zx55awQ');
-            await zoo_getTaskDetail()
-            await zoo_getTaskDetail("","app")
+            //await zoo_getTaskDetail()
+            //await zoo_getTaskDetail("","app")
           } else {
             return
           }
