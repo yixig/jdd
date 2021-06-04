@@ -38,6 +38,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
         continue;
       }
       console.log('\n\n京东账号：'+merge.nickname + ' 任务开始')
+      await zoo_pk_getHomeData();
       if (merge.black) continue;
       
       await msgShow();
