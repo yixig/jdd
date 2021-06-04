@@ -38,7 +38,7 @@ const JD_API_HOST = `https://api.m.jd.com/client.action?functionId=`;
         continue;
       }
       console.log('\n\n京东账号：'+merge.nickname + ' 任务开始')
-      //await zoo_sign()
+      await zoo_sign()
       await zoo_pk_getHomeData();
       await zoo_getHomeData();
       if (merge.black) continue;
@@ -194,8 +194,8 @@ function zoo_myMap(timeout = 0){
           for (let i in data.data.result.shopList) {
             // (data.data.result.shopList[i].status === 1) {
               //console.log(data.data.result.shopList[i])
-            //console.log('\n开始小镇任务：'+ data.data.result.shopList[i].name)// + '-' + data.data.result.shopList[i].shopId
-            //await zoo_getTaskDetail(data.data.result.shopList[i].shopId)
+            console.log('\n开始小镇任务：'+ data.data.result.shopList[i].name)// + '-' + data.data.result.shopList[i].shopId
+            await zoo_getTaskDetail(data.data.result.shopList[i].shopId)
             //}
           }
         } catch (e) {
@@ -437,7 +437,7 @@ function zoo_collectScore(taskBody,timeout = 0){
             //console.log('需要再次执行,如提示活动异常请多次重试，个别任务多次执行也不行就去APP做吧！')
             let taskBody = encodeURIComponent(`{"dataSource":"newshortAward","method":"getTaskAward","reqParams":"{\\"taskToken\\":\\"${data.data.result.taskToken}\\"}","sdkVersion":"1.0.0","clientLanguage":"zh"}`)
             //console.log(taskBody)
-            await qryViewkitCallbackResult(taskBody,7000)
+            //await qryViewkitCallbackResult(taskBody,7000)
           }
         } catch (e) {
           $.logErr(e, resp);
@@ -519,10 +519,10 @@ function zoo_getFeedDetail(taskId,timeout = 0){
                 if (j >= 5)  break;
                 //${JSON.stringify({"ss" : getBody()})}
                 //let taskBody = `functionId=zoo_collectScore&body={"taskId":${list[i].taskId},"taskToken" : "${list[i].productInfoVos[j].taskToken}","ss":"{\\"extraData\\":{\\"log\\":\\"${sign}\\",\\"sceneid\\":\\"QD216hPageh5\\"},\\"secretp\\":\\"${secretp}\\",\\"random\\":\\"${rnd}\\"}","actionType":1}&client=wh5&clientVersion=1.0.0`
-                let taskBody = `functionId=zoo_collectScore&body=${JSON.stringify({"taskId": list[i].taskId,"actionType":1,"taskToken" : list[i].productInfoVos[j].taskToken,"ss" : getBody()})}&client=wh5&clientVersion=1.0.0`
+                //let taskBody = `functionId=zoo_collectScore&body=${JSON.stringify({"taskId": list[i].taskId,"actionType":1,"taskToken" : list[i].productInfoVos[j].taskToken,"ss" : getBody()})}&client=wh5&clientVersion=1.0.0`
                 //console.log(taskBody)
                 console.log(list[i].productInfoVos[j].skuName)
-                await zoo_collectScore(taskBody,1000)
+                //await zoo_collectScore(taskBody,1000)
               }
               list[i].status = 2
             }
@@ -639,7 +639,7 @@ function zoo_getHomeData(inviteId= "",timeout = 0) {
             }
             //console.log('zoo_getHomeData:' + JSON.stringify(data))
             secretp = data.data.result.homeMainInfo.secretp
-            await zoo_collectProduceScore();
+            //await zoo_collectProduceScore();
             if (merge.black) return;
             await zoo_pk_getHomeData('sSKNX-MpqKOJsNu_mZneBluwe_DRzs1f90l6Q_p8OVxtoB-JJEErrVU4eHW7e2I')
             //await zoo_pk_assistGroup()
